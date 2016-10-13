@@ -15,6 +15,7 @@ if sys.getdefaultencoding() != default_encoding:
 
 #############################################################################
 #               rollback
-#           1 mv the old file to rollback zoom
-#           2 unzip source file
+#           1 mv the old source dir to rollback zoom
+#           2 rename the dir to project_name+version
+#           3 unzip new file
 #############################################################################

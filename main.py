@@ -18,7 +18,8 @@ from xml.dom import minidom
 filename='test.xml'
 config_path='./config/'
 nginx_config='/config/nginx/'
-nginx_www_dir='/data/www/auto_deploy'
+www_path= '/data/www/auto_deploy/'
+rollback_path='/data/rollback/'
 configflie=config_path+filename
 
 
@@ -30,7 +31,7 @@ else:
 
 
 #############################################################################
-#			test todo list
+#			test
 # <?xml version="1.0" encoding="UTF-8"?>
 # <response>
 #     <porject>
@@ -46,7 +47,7 @@ else:
 # </response>
 ###default sub domain project_name.networkgrand.com
 ##############################################################################
-#todo!!!!!
+#todo
 # import config
 # project_name=config.
 #######################################
@@ -88,20 +89,37 @@ for project in projects:
 #			new project on line
 #############################################################################
 if operation_type == 'new':
+
+ print('starting create.......')
+
  project_namezip='./source/'+project_name+".zip"
+
  import newproject
- newproject.CreateNginxConfigFile(project_name)
- newproject.UnzipSouceFile(project_namezip,nginx_www_dir)
- newproject.RestartNginx()
+
+ if newproject.CreateNginxConfigFile(project_name):
+  print('Create Nginx File is good')
+
+ if newproject.UnzipSouceFile(project_namezip, www_path ):
+  print('Unzip Source File is good')
+
+ if newproject.RestartNginx():
+  print('Restart is good')
 
 #############################################################################
 #			update project
 #############################################################################
 if operation_type == 'update':
+ print('starting update.......')
+
  import updateproject
 
- updateproject.UnzipSouceFile(project_name,"/data/www/auto_deploy/",version)
+ if updateproject.MakeRollbackDir( www_path + project_name , rollback_path+project_name , version ):
+  print('make rollbak file done')
 
+ project_namezip='./source/'+project_name+".zip"
+ if updateproject.UnzipSouceFile( project_namezip, www_path ):
+  print('Unzip Source File is good')
+  #todo del the source file
 
 #############################################################################
 #			rollback project

@@ -19,8 +19,12 @@ if sys.getdefaultencoding() != default_encoding:
 #       2 move this file to nginx work path usually is /data/www/auto_depoly  UnzipSouceFile
 #       3 create a v0.1 version by this case
 #############################################################################
-def RestartNginx(project_name):
-    os.system('sh ./script/restart_nginx.sh')
+def RestartNginx():
+    try:
+        f=os.system('sh ./script/restart_nginx.sh')
+    except f:
+        return f
+    return f
 
 def CreateNginxConfigFile(project_name):
     try:
@@ -38,18 +42,19 @@ def CreateNginxConfigFile(project_name):
 def UnzipSouceFile(source_file_path, destination_dir):
     destination_dir += '/'
     z = zipfile.ZipFile(source_file_path, 'r')
-    for file in z.namelist():
-        outfile_path = destination_dir + file
-        if file.endswith('/'):
-            os.makedirs(outfile_path)
-        else:
-            outfile = open(outfile_path, 'wb')
-            outfile.write(z.read(file))
-            outfile.close()
-    z.close()
-
-    #print unZipPath
-
+    try:
+        for file in z.namelist():
+            outfile_path = destination_dir + file
+            if file.endswith('/'):
+                os.makedirs(outfile_path)
+            else:
+                outfile = open(outfile_path, 'wb')
+                outfile.write(z.read(file))
+                outfile.close()
+        z.close()
+    except file:
+        return 'error'
+    return 'Success'
 
 
 

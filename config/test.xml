@@ -2,12 +2,12 @@
 <response>
     <porject>
       <name>test1</name>
-      <operation_type>new</operation_type>
+      <operation_type>update</operation_type>
       <connect_email>jd_chen@139.com</connect_email>
       <send_mail_address>cy.chen@networkgrand.com</send_mail_address>
       <domain_name>test1.com</domain_name>
       <home_page>index.html</home_page>
-      <version>1</version>
+      <version>3</version>
       <note>remark something</note>
     </porject>
 </response>
