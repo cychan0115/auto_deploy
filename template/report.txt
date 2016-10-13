@@ -1,0 +1,8 @@
+%s，项目负责人您好：
+系统为您完成了%s的项目操作,回复以下结果
+上线域名:%s
+二级域名:%s.networkgrand.com
+
+todo
+
+we shuld be add server ip and guide to config domain to service ip

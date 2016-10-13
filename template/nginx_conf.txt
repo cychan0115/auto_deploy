@@ -1,0 +1,9 @@
+server {
+        listen       80;
+        server_name %s %s;
+        root   /data/www/auto_deploy/%s;
+        access_log  logs/%s.access.log  main;
+        location / {
+                index %s;
+        }
+}
