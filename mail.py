@@ -21,7 +21,7 @@ from email.header import Header
 def pysendmail(sender,receivers,mail_type,project_name,domain_name):
 	mail_host="smtp.mxhichina.com"  #设置服务器
 	mail_user="cy.chen@networkgrand.com"    #用户名
-	mail_pass="123qwe!@#QWE"   #口令
+	mail_pass="jfKJF(u3f8^H$Jhf7738hFHF"   #口令
 	mail_template_file='report.txt'
 
 

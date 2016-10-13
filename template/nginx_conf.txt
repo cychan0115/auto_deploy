@@ -3,6 +3,13 @@ server {
         server_name %s %s;
         root   /data/www/auto_deploy/%s;
         access_log  logs/%s.access.log  main;
+        location ~ .*\.(gif|jpg|png|css|js)(.*) {
+            proxy_cache cache_one;
+            proxy_cache_valid 200 302 24h;
+            proxy_cache_valid 301 30d;
+            proxy_cache_valid any 5m;
+            expires 90d;
+        }
         location / {
                 index %s;
         }
