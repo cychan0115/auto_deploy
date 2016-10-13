@@ -15,7 +15,14 @@ if sys.getdefaultencoding() != default_encoding:
 
 #############################################################################
 #               rollback
-#           1 mv the old source dir to rollback zoom
-#           2 rename the dir to project_name+version
-#           3 unzip new file
+#           0 check rollback version if exists
+#           1 del www_dir project dir
+#           2 cp version to www_dir
 #############################################################################
+
+def Rollback(del_www_dir,rollback_version_dir):
+    if os.path.exists(rollback_version_dir):
+        if os.path.exists(del_www_dir):
+            shutil.rmtree(del_www_dir)
+        shutil.copytree(rollback_version_dir,del_www_dir,True)
+

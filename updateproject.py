@@ -23,7 +23,7 @@ if sys.getdefaultencoding() != default_encoding:
 def MakeRollbackDir(project_dir,rollbackdir,version):
     print ('  update  '+project_dir+'   to version ---->>  '+version)
     try:
-        shutil.move(project_dir,rollbackdir+'_version_'+str(int(version)-1))
+        shutil.move(project_dir,rollbackdir+'_version_'+str(int(version)))
     except shutil:
         return 'error'
     return 'success'

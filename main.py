@@ -125,7 +125,9 @@ if operation_type == 'update':
 #			rollback project
 #############################################################################
 if operation_type == 'rollback':
- print ('hello')
+ import rollback
+ if rollback.Rollback(www_path+project_name,rollback_path+project_name+'_version_'+version):
+  print("Rollback success")
 
 #############################################################################
 #			send mail
