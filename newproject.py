@@ -5,6 +5,7 @@ import zipfile
 import os
 import time
 import shutil
+import myclass
 from imp import reload
 
 
@@ -18,6 +19,9 @@ if sys.getdefaultencoding() != default_encoding:
 #       2 move this file to nginx work path usually is /data/www/auto_depoly  UnzipSouceFile
 #       3 create a v0.1 version by this case
 #############################################################################
+def RestartNginx(project_name):
+    os.system('sh ./script/restart_nginx.sh')
+
 def CreateNginxConfigFile(project_name):
     try:
         nginx_static_template='./template/nginx_conf.txt'
@@ -31,34 +35,21 @@ def CreateNginxConfigFile(project_name):
     except f:
         return "Error to create nginx config file "
 
-def UnzipSouceFile(project_name,unzip_path):
-    unziptodir=unzip_path
-    zipfilename='./source/'+project_name+'.zip'
-    try:
-        if not os.path.exists(unziptodir):
-            os.mkdir(unziptodir, 0777)
-        zfobj = zipfile.ZipFile(zipfilename)
-        for name in zfobj.namelist():
-            name = name.replace('\\','/')
+def UnzipSouceFile(source_file_path, destination_dir):
+    destination_dir += '/'
+    z = zipfile.ZipFile(source_file_path, 'r')
+    for file in z.namelist():
+        outfile_path = destination_dir + file
+        if file.endswith('/'):
+            os.makedirs(outfile_path)
+        else:
+            outfile = open(outfile_path, 'wb')
+            outfile.write(z.read(file))
+            outfile.close()
+    z.close()
 
-            if name.endswith('/'):
-                p = os.path.join(unziptodir, name[:-1])
-                if os.path.exists(p):
-                    now=time.strftime("%Y%m%d%H%M")
-                    shutil.move(p,p+now)
-            else:
-                ext_filename = os.path.join(unziptodir, name)
-                ext_dir= os.path.dirname(ext_filename)
-                if not os.path.exists(ext_dir):
-                    os.mkdir(ext_dir,0777)
-                outfile = open(ext_filename, 'wb')
-                outfile.write(zfobj.read(name))
-                outfile.close()
-        return "success"
-    except zfobj:
-        return 'error'
+    #print unZipPath
 
-def RestartNginx(project_name):
-    os.system('sh /sh/restart_nginx.sh')
+
 
 

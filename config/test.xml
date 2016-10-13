@@ -7,7 +7,7 @@
       <send_mail_address>cy.chen@networkgrand.com</send_mail_address>
       <domain_name>test1.com</domain_name>
       <home_page>index.html</home_page>
-      <version>0.1</version>
+      <version>1</version>
       <note>remark something</note>
     </porject>
 </response>

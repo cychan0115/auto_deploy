@@ -20,6 +20,8 @@ config_path='./config/'
 nginx_config='/config/nginx/'
 nginx_www_dir='/data/www/auto_deploy'
 configflie=config_path+filename
+
+
 if os.path.isfile(configflie):
  print ("Config file OK ")
 else:
@@ -86,10 +88,10 @@ for project in projects:
 #			new project on line
 #############################################################################
 if operation_type == 'new':
+ project_namezip='./source/'+project_name+".zip"
  import newproject
-
  newproject.CreateNginxConfigFile(project_name)
- newproject.UnzipSouceFile(project_name,"/data/www/auto_deploy/")
+ newproject.UnzipSouceFile(project_namezip,nginx_www_dir)
  newproject.RestartNginx()
 
 #############################################################################
