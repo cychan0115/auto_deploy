@@ -40,6 +40,8 @@ def CreateNginxConfigFile(project_name):
         return "Error to create nginx config file "
 
 def UnzipSouceFile(source_file_path, destination_dir):
+    if os.path.exists(destination_dir):
+        shutil.rmtree(destination_dir)
     destination_dir += '/'
     z = zipfile.ZipFile(source_file_path, 'r')
     try:

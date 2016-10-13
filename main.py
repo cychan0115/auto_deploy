@@ -105,6 +105,10 @@ if operation_type == 'new':
  if newproject.RestartNginx():
   print('Restart is good')
 
+ import mail
+ freeback=mail.pysendmail(send_mail_address,connect_email,"new",project_name,domain_name);
+ print freeback
+
 #############################################################################
 #			update project
 #############################################################################
