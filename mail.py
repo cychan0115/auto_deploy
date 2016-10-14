@@ -21,13 +21,17 @@ from email.header import Header
 def pysendmail(sender,receivers,mail_type,project_name,domain_name):
 	mail_host="smtp.mxhichina.com"  #设置服务器
 	mail_user="cy.chen@networkgrand.com"    #用户名
-	mail_pass="jfKJF(u3f8^H$Jhf7738hFHF"   #口令
-	mail_template_file='report.txt'
+	mail_pass="4ukqoivuasoi41hiovyiubfmds"   #口令
+	mail_template_file='./template/report.txt'
 
 
 	mail_content=open(mail_template_file).read()
-	body= mail_content%(project_name,project_name,domain_name,project_name)
-
+	if mail_type == 'new':
+		body= mail_content%(project_name,project_name,"上线",domain_name,project_name)
+	if mail_type == 'update':
+		body= mail_content%(project_name,project_name,"上线",domain_name,project_name)
+	if mail_type == 'rollback':
+		body= mail_content%(project_name,project_name,"回滚",domain_name,project_name)
 	message = MIMEText(body, 'plain', 'utf-8')
 	message['From'] = Header(sender, 'utf-8')
 	message['To'] =  Header(receivers, 'utf-8')

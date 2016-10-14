@@ -104,10 +104,10 @@ if operation_type == 'new':
 
  if newproject.RestartNginx():
   print('Restart is good')
-
- import mail
- freeback=mail.pysendmail(send_mail_address,connect_email,"new",project_name,domain_name);
- print freeback
+  import mail
+  freeback=mail.pysendmail(send_mail_address,connect_email,operation_type,project_name,domain_name);
+  print freeback
+  #todo del the source file
 
 #############################################################################
 #			update project
@@ -123,6 +123,9 @@ if operation_type == 'update':
  project_namezip='./source/'+project_name+".zip"
  if updateproject.UnzipSouceFile( project_namezip, www_path ):
   print('Unzip Source File is good')
+  import mail
+  freeback=mail.pysendmail(send_mail_address,connect_email,operation_type,project_name,domain_name);
+  print freeback
   #todo del the source file
 
 #############################################################################
@@ -132,6 +135,10 @@ if operation_type == 'rollback':
  import rollback
  if rollback.Rollback(www_path+project_name,rollback_path+project_name+'_version_'+version):
   print("Rollback success")
+  import mail
+  freeback=mail.pysendmail(send_mail_address,connect_email,operation_type,project_name,domain_name);
+  print freeback
+  #todo del the source file
 
 #############################################################################
 #			send mail
