@@ -23,7 +23,12 @@ if sys.getdefaultencoding() != default_encoding:
 def MakeRollbackDir(project_dir,rollbackdir,version):
     print ('  update  '+project_dir+'   to version ---->>  '+version)
     try:
-        shutil.move(project_dir,rollbackdir+'_version_'+str(int(version)))
+        if os.path.exists(rollbackdir+'_version_'+str(int(version))):
+            print('rollback dir exists del it ')
+            shutil.rmtree(rollbackdir+'_version_'+str(int(version)))
+            shutil.move(project_dir,rollbackdir+'_version_'+str(int(version)))
+        else:
+         shutil.move(project_dir,rollbackdir+'_version_'+str(int(version)))
     except shutil:
         return 'error'
     return 'success'
@@ -41,6 +46,7 @@ def UnzipSouceFile(source_file_path, destination_dir):
                 outfile.write(z.read(file))
                 outfile.close()
         z.close()
+
     except file:
         return 'error'
     return 'Success'

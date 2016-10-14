@@ -83,6 +83,9 @@ for project in projects:
  version=project.getElementsByTagName("version")[0].childNodes[0].nodeValue
  note=project.getElementsByTagName("note")[0].childNodes[0].nodeValue
  send_mail_address=project.getElementsByTagName("send_mail_address")[0].childNodes[0].nodeValue
+ send_mail_host=project.getElementsByTagName("send_mail_host")[0].childNodes[0].nodeValue
+ send_mail_name=project.getElementsByTagName( "send_mail_name" )[0 ].childNodes[0 ].nodeValue
+ send_mail_pass=project.getElementsByTagName("send_mail_pass")[0].childNodes[0].nodeValue
 
 
 #############################################################################
@@ -105,7 +108,7 @@ if operation_type == 'new':
  if newproject.RestartNginx():
   print('Restart is good')
   import mail
-  freeback=mail.pysendmail(send_mail_address,connect_email,operation_type,project_name,domain_name);
+  freeback=mail.pysendmail( send_mail_address , connect_email , operation_type , project_name , domain_name , send_mail_host , send_mail_name , send_mail_pass );
   print freeback
   #todo del the source file
 
@@ -116,7 +119,6 @@ if operation_type == 'update':
  print('starting update.......')
 
  import updateproject
-
  if updateproject.MakeRollbackDir( www_path + project_name , rollback_path+project_name , version ):
   print('make rollbak file done')
 
@@ -124,7 +126,7 @@ if operation_type == 'update':
  if updateproject.UnzipSouceFile( project_namezip, www_path ):
   print('Unzip Source File is good')
   import mail
-  freeback=mail.pysendmail(send_mail_address,connect_email,operation_type,project_name,domain_name);
+  freeback=mail.pysendmail( send_mail_address , connect_email , operation_type , project_name , domain_name , send_mail_host , send_mail_name , send_mail_pass );
   print freeback
   #todo del the source file
 
@@ -136,7 +138,7 @@ if operation_type == 'rollback':
  if rollback.Rollback(www_path+project_name,rollback_path+project_name+'_version_'+version):
   print("Rollback success")
   import mail
-  freeback=mail.pysendmail(send_mail_address,connect_email,operation_type,project_name,domain_name);
+  freeback=mail.pysendmail( send_mail_address , connect_email , operation_type , project_name , domain_name , send_mail_host , send_mail_name , send_mail_pass );
   print freeback
   #todo del the source file
 
