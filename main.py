@@ -2,6 +2,9 @@
 #-- coding: utf-8 --
 import sys
 import os
+import time
+import shutil
+import myclass
 from imp import reload
 
 
@@ -10,144 +13,86 @@ if sys.getdefaultencoding() != default_encoding:
     reload(sys)
     sys.setdefaultencoding(default_encoding)
 from xml.dom import minidom
-#############################################################################
-#			Search source file control
-#i will search deploy.todolist file
-#if i found the deploy.todolist i will call my boday to check this todo list
-##############################################################################
-filename='test.xml'
-config_path='./config/'
-nginx_config='/config/nginx/'
-www_path= '/data/www/auto_deploy/'
-rollback_path='/data/rollback/'
-configflie=config_path+filename
+ #############################################################################
+ #			read config from xml
+ # this part is very suck will update in sometime
+ ##############################################################################
+def main(configfile):
+ doc=minidom.parse(configfile)
+ root=doc.documentElement
+ projects=root.getElementsByTagName('porject')
+ for project in projects:
+  project_name=project.getElementsByTagName("name")[0].childNodes[0].nodeValue
+  operation_type=project.getElementsByTagName("operation_type")[0].childNodes[0].nodeValue
+  connect_email=project.getElementsByTagName("connect_email")[0].childNodes[0].nodeValue
+  domain_name=project.getElementsByTagName("domain_name")[0].childNodes[0].nodeValue
+  home_page=project.getElementsByTagName("home_page")[0].childNodes[0].nodeValue
+  version=project.getElementsByTagName("version")[0].childNodes[0].nodeValue
+  note=project.getElementsByTagName("note")[0].childNodes[0].nodeValue
+  send_mail_address=project.getElementsByTagName("send_mail_address")[0].childNodes[0].nodeValue
+  send_mail_host=project.getElementsByTagName("send_mail_host")[0].childNodes[0].nodeValue
+  send_mail_name=project.getElementsByTagName( "send_mail_name" )[0 ].childNodes[0 ].nodeValue
+  send_mail_pass=project.getElementsByTagName("send_mail_pass")[0].childNodes[0].nodeValue
+  auto_config_path=project.getElementsByTagName("auto_config_path")[0].childNodes[0].nodeValue
+  nginx_config_dir= project.getElementsByTagName("nginx_config_dir")[0].childNodes[0].nodeValue
+  nginx_www_dir= project.getElementsByTagName("nginx_www_dir")[0].childNodes[0].nodeValue
+  nginx_static_template=project.getElementsByTagName("nginx_static_template")[0].childNodes[0].nodeValue
+  rollback_path=project.getElementsByTagName("rollback_path")[0].childNodes[0].nodeValue
 
+ #############################################################################
+ #			new project on line
+ #############################################################################
+ if operation_type == 'new':
 
-if os.path.isfile(configflie):
- print ("Config file OK ")
-else:
- print ("False can't find config file")
- sys.exit("Sorry, goodbye!")
+  print('starting create.......')
 
+  project_namezip='./source/'+project_name+".zip"
 
-#############################################################################
-#			test
-# <?xml version="1.0" encoding="UTF-8"?>
-# <response>
-#     <porject>
-#       <name>test1</name>
-#       <operation_type>new</operation_type>
-#       <connect_email>jd_chen@139.com</connect_email>
-#       <send_mail_address>cy.chen@networkgrand.com</send_mail_address>
-#       <domain_name>test1.com</domain_name>
-#       <home_page>index.html</home_page>
-#       <version>0.1</version>
-#       <note>remark something</note>
-#     </porject>
-# </response>
-###default sub domain project_name.networkgrand.com
-##############################################################################
-#todo
-# import config
-# project_name=config.
-#######################################
+  import newproject
 
-#############################################################################
-#			read config from xml
-#
-###
-# sender = send_mail_address
-# receivers = connect_email
-# mail_template_file='report.txt'
-# mail_type=success/error
-# print "project_name="+project_name
-# print "operation_type="+operation_type
-# print "connect_email="+connect_email
-# print "domain_name="+domain_name
-# print "home_page="+home_page
-# print "version="+version
-# print "note="+note
-# print "send_mail_address="+send_mail_address
-# this part is very suck will update in sometime
-##############################################################################
+  if newproject.CreateNginxConfigFile(project_name,nginx_static_template):
+   print('Create Nginx File is good')
 
-doc=minidom.parse(configflie)
-root=doc.documentElement
-projects=root.getElementsByTagName('porject')
-for project in projects:
- project_name=project.getElementsByTagName("name")[0].childNodes[0].nodeValue
- operation_type=project.getElementsByTagName("operation_type")[0].childNodes[0].nodeValue
- connect_email=project.getElementsByTagName("connect_email")[0].childNodes[0].nodeValue
- domain_name=project.getElementsByTagName("domain_name")[0].childNodes[0].nodeValue
- home_page=project.getElementsByTagName("home_page")[0].childNodes[0].nodeValue
- version=project.getElementsByTagName("version")[0].childNodes[0].nodeValue
- note=project.getElementsByTagName("note")[0].childNodes[0].nodeValue
- send_mail_address=project.getElementsByTagName("send_mail_address")[0].childNodes[0].nodeValue
- send_mail_host=project.getElementsByTagName("send_mail_host")[0].childNodes[0].nodeValue
- send_mail_name=project.getElementsByTagName( "send_mail_name" )[0 ].childNodes[0 ].nodeValue
- send_mail_pass=project.getElementsByTagName("send_mail_pass")[0].childNodes[0].nodeValue
+  if newproject.UnzipSouceFile( project_namezip, nginx_www_dir ):
+   print('Unzip Source File is good')
 
+  if newproject.RestartNginx():
+   print('Restart is good')
+   import mail
+   freeback=mail.pysendmail( send_mail_address , connect_email , operation_type , project_name , domain_name , send_mail_host , send_mail_name , send_mail_pass );
+   print freeback
+   #todo del the source file
 
-#############################################################################
-#			new project on line
-#############################################################################
-if operation_type == 'new':
+ #############################################################################
+ #			update project
+ #############################################################################
+ if operation_type == 'update':
+  print('starting update.......')
 
- print('starting create.......')
+  import updateproject
+  if updateproject.makerollbackdir( nginx_www_dir + project_name , rollback_path+project_name , version ):
+   print('make rollbak file done')
 
- project_namezip='./source/'+project_name+".zip"
+  project_namezip='./source/'+project_name+".zip"
+  if updateproject.unzipsoucefile( project_namezip, nginx_www_dir ):
+   print('Unzip Source File is good')
+   import mail
+   freeback=mail.pysendmail( send_mail_address , connect_email , operation_type , project_name , domain_name , send_mail_host , send_mail_name , send_mail_pass );
+   print freeback
+   #todo del the source file
 
- import newproject
+ #############################################################################
+ #			rollback project
+ #############################################################################
+ if operation_type == 'rollback':
+  import rollback
+  if rollback.Rollback( nginx_www_dir+project_name, rollback_path+project_name+ '_version_'+version ):
+   print("Rollback success")
+   import mail
+   freeback=mail.pysendmail( send_mail_address , connect_email , operation_type , project_name , domain_name , send_mail_host , send_mail_name , send_mail_pass );
+   print freeback
+   #todo del the source file
 
- if newproject.CreateNginxConfigFile(project_name):
-  print('Create Nginx File is good')
-
- if newproject.UnzipSouceFile(project_namezip, www_path ):
-  print('Unzip Source File is good')
-
- if newproject.RestartNginx():
-  print('Restart is good')
-  import mail
-  freeback=mail.pysendmail( send_mail_address , connect_email , operation_type , project_name , domain_name , send_mail_host , send_mail_name , send_mail_pass );
-  print freeback
-  #todo del the source file
-
-#############################################################################
-#			update project
-#############################################################################
-if operation_type == 'update':
- print('starting update.......')
-
- import updateproject
- if updateproject.MakeRollbackDir( www_path + project_name , rollback_path+project_name , version ):
-  print('make rollbak file done')
-
- project_namezip='./source/'+project_name+".zip"
- if updateproject.UnzipSouceFile( project_namezip, www_path ):
-  print('Unzip Source File is good')
-  import mail
-  freeback=mail.pysendmail( send_mail_address , connect_email , operation_type , project_name , domain_name , send_mail_host , send_mail_name , send_mail_pass );
-  print freeback
-  #todo del the source file
-
-#############################################################################
-#			rollback project
-#############################################################################
-if operation_type == 'rollback':
- import rollback
- if rollback.Rollback(www_path+project_name,rollback_path+project_name+'_version_'+version):
-  print("Rollback success")
-  import mail
-  freeback=mail.pysendmail( send_mail_address , connect_email , operation_type , project_name , domain_name , send_mail_host , send_mail_name , send_mail_pass );
-  print freeback
-  #todo del the source file
-
-#############################################################################
-#			send mail
-#############################################################################
-# import mail
-# freeback=mail.pysendmail(send_mail_address,connect_email,"new",project_name,domain_name);
-# print freeback
 
 
 

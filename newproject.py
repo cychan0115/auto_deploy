@@ -26,11 +26,9 @@ def RestartNginx():
         return f
     return f
 
-def CreateNginxConfigFile(project_name):
+def CreateNginxConfigFile(project_name,nginx_static_template,nginx_config_dir):
     try:
-        nginx_static_template='./template/nginx_conf.txt'
-        nginx_conf_path='/config/nginx/'
-        f=open(nginx_conf_path+project_name+'.conf','w')
+        f=open(nginx_config_dir+project_name+'.conf','w')
         n_template=open(nginx_static_template).read()
         n_content=n_template%(project_name,project_name,project_name,project_name,'index.html')
         f.write(n_content)

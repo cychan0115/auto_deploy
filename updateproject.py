@@ -3,7 +3,6 @@
 import sys
 import zipfile
 import os
-import time
 import shutil
 from imp import reload
 
@@ -20,7 +19,7 @@ if sys.getdefaultencoding() != default_encoding:
 #           3 unzip new file
 #############################################################################
 
-def MakeRollbackDir(project_dir,rollbackdir,version):
+def makerollbackdir(project_dir,rollbackdir,version):
     print ('  update  '+project_dir+'   to version ---->>  '+version)
     try:
         if os.path.exists(rollbackdir+'_version_'+str(int(version))):
@@ -33,20 +32,15 @@ def MakeRollbackDir(project_dir,rollbackdir,version):
         return 'error'
     return 'success'
 
-def UnzipSouceFile(source_file_path, destination_dir):
+def unzipsoucefile(source_file_path, destination_dir):
     destination_dir += '/'
     z = zipfile.ZipFile(source_file_path, 'r')
-    try:
-        for file in z.namelist():
-            outfile_path = destination_dir + file
-            if file.endswith('/'):
-                os.makedirs(outfile_path)
-            else:
-                outfile = open(outfile_path, 'wb')
-                outfile.write(z.read(file))
-                outfile.close()
-        z.close()
-
-    except file:
-        return 'error'
-    return 'Success'
+    for file1 in z.namelist():
+        outfile_path = destination_dir + file1
+        if file1.endswith('/'):
+            os.makedirs(outfile_path)
+        else:
+            outfile = open(outfile_path, 'wb')
+            outfile.write(z.read(file1))
+            outfile.close()
+    z.close()
