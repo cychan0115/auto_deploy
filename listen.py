@@ -21,19 +21,26 @@ from xml.dom import minidom
 ##############################################################################
 
 source_dir='./source'
-configflie='null'
+print 'start.',
 while 1:
-  print ("wait ....")
   time.sleep(1)
   filelist=os.listdir(source_dir)
+  configflie='null'
   for file1 in filelist:
-   if file1[-4:] == '.zip' and file1[0:12] == 'auto_deploy_':
+   if file1[-9:] == '.zip.done' and file1[0:12] == 'Auto_Deploy_':
+    print 'get start single..'
+    os.remove('./source/'+file1)
+    file1=file1[0:-5]
     print file1
-    print("start work")
-    shutil.rmtree('./work')
-    os.makedirs('./work')
-    shutil.move('./source/'+file1,'./work/')
-    project_work_dir=myclass.unzipsoucefile('./work/'+file1,'./work/')
-    os.remove('./work/'+file1,)
-    configflie=project_work_dir+'/config.xml'
-    main.main(configflie)
+    if os.path.exists('./source/'+file1):
+        print file1
+        print("start work")
+        pname=file1[12:-4]
+        shutil.rmtree('./work')
+        os.makedirs('./work')
+        shutil.move('./source/'+file1,'./work/')
+        project_work_dir=myclass.unzipsoucefile('./work/'+file1,'./work/')
+        configflie='./work/'+pname+'/config.xml'
+        if main.main(configflie):
+            os.remove('./work/'+file1)
+            os.remove('./work/'+pname)#todo list on mac err permitted

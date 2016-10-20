@@ -39,60 +39,67 @@ def main(configfile):
   nginx_static_template=project.getElementsByTagName("nginx_static_template")[0].childNodes[0].nodeValue
   rollback_path=project.getElementsByTagName("rollback_path")[0].childNodes[0].nodeValue
 
- #############################################################################
- #			new project on line
- #############################################################################
- if operation_type == 'new':
+ try:
+  #############################################################################
+  #			new project on line
+  #############################################################################
+  if operation_type == 'new':
 
-  print('starting create.......')
+   print('starting create.......')
 
-  project_namezip='./source/'+project_name+".zip"
+   project_namezip='./source/'+project_name+".zip"
 
-  import newproject
+   import newproject
 
-  if newproject.CreateNginxConfigFile(project_name,nginx_static_template):
-   print('Create Nginx File is good')
+   if newproject.CreateNginxConfigFile(project_name,nginx_static_template):
+    print('Create Nginx File is good')
 
-  if newproject.UnzipSouceFile( project_namezip, nginx_www_dir ):
-   print('Unzip Source File is good')
+   if newproject.UnzipSouceFile( project_namezip, nginx_www_dir ):
+    print('Unzip Source File is good')
 
-  if newproject.RestartNginx():
-   print('Restart is good')
-   import mail
-   freeback=mail.pysendmail( send_mail_address , connect_email , operation_type , project_name , domain_name , send_mail_host , send_mail_name , send_mail_pass );
-   print freeback
-   #todo del the source file
+   if newproject.RestartNginx():
+    print('Restart is good')
+    import mail
+    freeback=mail.pysendmail( send_mail_address , connect_email , operation_type , project_name , domain_name , send_mail_host , send_mail_name , send_mail_pass );
+    print freeback
+    #todo del the source file
 
- #############################################################################
- #			update project
- #############################################################################
- if operation_type == 'update':
-  print('starting update.......')
+  #############################################################################
+  #			update project
+  #############################################################################
+  if operation_type == 'update':
+   print('starting update.......')
 
-  import updateproject
-  if updateproject.makerollbackdir( nginx_www_dir + project_name , rollback_path+project_name , version ):
-   print('make rollbak file done')
+   import updateproject
+   if updateproject.makerollbackdir( nginx_www_dir + project_name , rollback_path+project_name , version ):
+    print('make rollbak file done')
 
-  project_namezip='./source/'+project_name+".zip"
-  if updateproject.unzipsoucefile( project_namezip, nginx_www_dir ):
-   print('Unzip Source File is good')
-   import mail
-   freeback=mail.pysendmail( send_mail_address , connect_email , operation_type , project_name , domain_name , send_mail_host , send_mail_name , send_mail_pass );
-   print freeback
-   #todo del the source file
+   project_namezip='./source/'+project_name+".zip"
+   if updateproject.unzipsoucefile( project_namezip, nginx_www_dir ):
+    print('Unzip Source File is good')
+    import mail
+    freeback=mail.pysendmail( send_mail_address , connect_email , operation_type , project_name , domain_name , send_mail_host , send_mail_name , send_mail_pass );
+    print freeback
+    #todo del the source file
+   else:
+    print "updateproject.unzipsoucefile err!!!"
 
- #############################################################################
- #			rollback project
- #############################################################################
- if operation_type == 'rollback':
-  import rollback
-  if rollback.Rollback( nginx_www_dir+project_name, rollback_path+project_name+ '_version_'+version ):
-   print("Rollback success")
-   import mail
-   freeback=mail.pysendmail( send_mail_address , connect_email , operation_type , project_name , domain_name , send_mail_host , send_mail_name , send_mail_pass );
-   print freeback
-   #todo del the source file
+  #############################################################################
+  #			rollback project
+  #############################################################################
+  if operation_type == 'rollback':
+   import rollback
+   if rollback.Rollback( nginx_www_dir+project_name, rollback_path+project_name+ '_version_'+version ):
+    print("Rollback success")
+    import mail
+    freeback=mail.pysendmail( send_mail_address , connect_email , operation_type , project_name , domain_name , send_mail_host , send_mail_name , send_mail_pass );
+    print freeback
+    #todo del the source file
 
+  os.remove(nginx_www_dir+project_name+'/config.xml')
+ except:
+  return 'err'
+ return 'success'
 
 
 

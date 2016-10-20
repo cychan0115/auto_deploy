@@ -25,22 +25,28 @@ def makerollbackdir(project_dir,rollbackdir,version):
         if os.path.exists(rollbackdir+'_version_'+str(int(version))):
             print('rollback dir exists del it ')
             shutil.rmtree(rollbackdir+'_version_'+str(int(version)))
+        if os.path.exists(project_dir):
             shutil.move(project_dir,rollbackdir+'_version_'+str(int(version)))
         else:
-         shutil.move(project_dir,rollbackdir+'_version_'+str(int(version)))
+         if os.path.exists(project_dir):
+            shutil.move(project_dir,rollbackdir+'_version_'+str(int(version)))
     except shutil:
         return 'error'
     return 'success'
 
 def unzipsoucefile(source_file_path, destination_dir):
     destination_dir += '/'
-    z = zipfile.ZipFile(source_file_path, 'r')
-    for file1 in z.namelist():
-        outfile_path = destination_dir + file1
-        if file1.endswith('/'):
-            os.makedirs(outfile_path)
-        else:
-            outfile = open(outfile_path, 'wb')
-            outfile.write(z.read(file1))
-            outfile.close()
-    z.close()
+    try:
+        z = zipfile.ZipFile(source_file_path, 'r')
+        for file1 in z.namelist():
+            outfile_path = destination_dir + file1
+            if file1.endswith('/'):
+                os.makedirs(outfile_path,mode=0777)
+            else:
+                outfile = open(outfile_path, 'wb')
+                outfile.write(z.read(file1))
+                outfile.close()
+        z.close()
+    except z:
+        return "err"
+    return 'Success'
