@@ -5,6 +5,7 @@ import os
 import time
 import shutil
 import myclass
+import re
 from imp import reload
 
 
@@ -17,7 +18,7 @@ from xml.dom import minidom
  #			read config from xml
  # this part is very suck will update in sometime
  ##############################################################################
-def main(configfile):
+def main(configfile,sourcefile):
  doc=minidom.parse(configfile)
  root=doc.documentElement
  projects=root.getElementsByTagName('porject')
@@ -26,7 +27,9 @@ def main(configfile):
   operation_type=project.getElementsByTagName("operation_type")[0].childNodes[0].nodeValue
   connect_email=project.getElementsByTagName("connect_email")[0].childNodes[0].nodeValue
   domain_name=project.getElementsByTagName("domain_name")[0].childNodes[0].nodeValue
-  home_page=project.getElementsByTagName("home_page")[0].childNodes[0].nodeValue
+  project_type=project.getElementsByTagName("project_type")[0].childNodes[0].nodeValue
+  moblie_301_domain_name=project.getElementsByTagName("moblie_301_domain_name")[0].childNodes[0].nodeValue
+  moblie_301_project_name=project.getElementsByTagName("moblie_301_project_name")[0].childNodes[0].nodeValue
   version=project.getElementsByTagName("version")[0].childNodes[0].nodeValue
   note=project.getElementsByTagName("note")[0].childNodes[0].nodeValue
   send_mail_address=project.getElementsByTagName("send_mail_address")[0].childNodes[0].nodeValue
@@ -36,26 +39,40 @@ def main(configfile):
   auto_config_path=project.getElementsByTagName("auto_config_path")[0].childNodes[0].nodeValue
   nginx_config_dir= project.getElementsByTagName("nginx_config_dir")[0].childNodes[0].nodeValue
   nginx_www_dir= project.getElementsByTagName("nginx_www_dir")[0].childNodes[0].nodeValue
-  nginx_static_template=project.getElementsByTagName("nginx_static_template")[0].childNodes[0].nodeValue
+  nginx_static_template_only_www=project.getElementsByTagName("nginx_static_template_only_www")[0].childNodes[0].nodeValue
+  nginx_static_template_301=project.getElementsByTagName("nginx_static_template_301")[0].childNodes[0].nodeValue
   rollback_path=project.getElementsByTagName("rollback_path")[0].childNodes[0].nodeValue
-
+  index_fine=project.getElementsByTagName("index_fine")[0].childNodes[0].nodeValue
  try:
   #############################################################################
   #			new project on line
   #############################################################################
   if operation_type == 'new':
 
-   print('starting create.......')
+   print('starting create '+project_name+project_type+'.......')
 
    project_namezip='./source/'+project_name+".zip"
 
    import newproject
 
-   if newproject.CreateNginxConfigFile(project_name,nginx_static_template):
+   if project_type == 'www':
+    nginx_static_template=nginx_static_template_only_www
+   else:
+    nginx_static_template=nginx_static_template_301
+
+
+   if newproject.CreateNginxConfigFile(project_type,project_name,domain_name,nginx_static_template,nginx_config_dir,index_fine,moblie_301_project_name,moblie_301_domain_name):
     print('Create Nginx File is good')
 
-   if newproject.UnzipSouceFile( project_namezip, nginx_www_dir ):
+   sourcefile2=re.sub('Auto_Deploy_(\w+).zip','Auto_Deploy_\\1_'+project_type+'.zip',sourcefile)
+   os.rename(sourcefile,sourcefile2)
+   if(project_type!='www'):
+    project_type='mobile'
+
+   if newproject.UnzipSouceFile( sourcefile2, nginx_www_dir+project_type ):
     print('Unzip Source File is good')
+   else:
+    print('Unzip Err!!')
 
    if newproject.RestartNginx():
     print('Restart is good')

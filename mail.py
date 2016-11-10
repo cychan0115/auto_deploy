@@ -48,4 +48,4 @@ def pysendmail(sender,receivers,mail_type,project_name,domain_name,mail_host,mai
 		smtpObj.sendmail(sender, receivers, message.as_string())
 		return "Success! to send "+receivers
 	except smtplib.SMTPException:
-		return "Error!!"
+		return "Mail Error!!"

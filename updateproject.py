@@ -26,7 +26,8 @@ def makerollbackdir(project_dir,rollbackdir,version):
             print('rollback dir exists del it ')
             shutil.rmtree(rollbackdir+'_version_'+str(int(version)))
         if os.path.exists(project_dir):
-            shutil.move(project_dir,rollbackdir+'_version_'+str(int(version)))
+            shutil.move(project_dir,rollbackdir+'_version_'+str(int(version))
+                        )
         else:
          if os.path.exists(project_dir):
             shutil.move(project_dir,rollbackdir+'_version_'+str(int(version)))

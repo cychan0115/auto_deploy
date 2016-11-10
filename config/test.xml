@@ -2,21 +2,25 @@
 <response>
     <porject>
       <name>test1</name>
-      <operation_type>update</operation_type>
+      <operation_type>new</operation_type>
       <connect_email>jd_chen@139.com</connect_email>
       <send_mail_address>cy.chen@networkgrand.com</send_mail_address>
       <send_mail_host>smtp.mxhichina.com</send_mail_host>
       <send_mail_name>cy.chen@networkgrand.com</send_mail_name>
-      <send_mail_pass>1314124rdfw</send_mail_pass>
-      <domain_name>test1.com</domain_name>
-      <home_page>index.html</home_page>
+      <send_mail_pass>mail password</send_mail_pass>
+      <domain_name>www.test1.com</domain_name>#null define leve2 domain
+      <moblie_301_domain_name>m.test1.com</moblie_301_domain_name># m.test1.com
+      <moblie_301_project_name>test1_m</moblie_301_project_name># test1_m.networkgrand.com
+      <project_type>www</project_type>#or something else
       <version>5</version>
       <note>remark something</note>
+      <index_fine>index.html</index_fine>
+#####################system config############################
       <auto_config_path>./config/</auto_config_path>
       <nginx_config_dir>/config/nginx/</nginx_config_dir>
       <nginx_www_dir>/data/www/auto_deploy/</nginx_www_dir>
-      <nginx_static_template>./template/nginx_conf.txt</nginx_static_template>
+      <nginx_static_template_only_www>./template/nginx_conf1.txt</nginx_static_template_only_www>
+      <nginx_static_template_301>./template/nginx_conf2.txt</nginx_static_template_301>
       <rollback_path>/data/rollback/</rollback_path>
     </porject>
 </response>
-

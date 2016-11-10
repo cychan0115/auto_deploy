@@ -41,6 +41,7 @@ while 1:
         shutil.move('./source/'+file1,'./work/')
         project_work_dir=myclass.unzipsoucefile('./work/'+file1,'./work/')
         configflie='./work/'+pname+'/config.xml'
-        if main.main(configflie):
-            os.remove('./work/'+file1)
-            os.remove('./work/'+pname)#todo list on mac err permitted
+        if main.main(configflie,'./work/'+file1,):
+            shutil.rmtree('./work')
+            os.makedirs('./work')
+            #os.remove('./work/'+pname)#todo list on mac err permitted

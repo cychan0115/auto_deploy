@@ -26,13 +26,30 @@ def RestartNginx():
         return f
     return f
 
-def CreateNginxConfigFile(project_name,nginx_static_template,nginx_config_dir):
+def CreateNginxConfigFile(project_type,project_name,domain_name,nginx_static_template,nginx_config_dir,index_fine,moblie_301_project_name,moblie_301_domain_name):
     try:
-        f=open(nginx_config_dir+project_name+'.conf','w')
-        n_template=open(nginx_static_template).read()
-        n_content=n_template%(project_name,project_name,project_name,project_name,'index.html')
-        f.write(n_content)
-        f.close()
+        if project_type=='www':
+            #check mobile config
+            if(os.path.exists(nginx_config_dir+project_name+'_mobile.conf')):
+                #don do anything
+                print('allow ready has config')
+            else:
+                f=open(nginx_config_dir+project_name+'_'+project_type+'.conf','w')
+                n_template=open(nginx_static_template).read()
+                n_content=n_template%(project_name,domain_name,project_name,project_name,project_name,index_fine)
+                f.write(n_content)
+                f.close()
+        else:
+            project_type='mobile'
+            if(os.path.exists(nginx_config_dir+project_name+'_mobile.conf')):
+                os.remove(nginx_config_dir+project_name+'_mobile.conf')
+            f=open(nginx_config_dir+project_name+'_'+project_type+'.conf','w')
+            n_template=open(nginx_static_template).read()
+            n_content=n_template%(moblie_301_project_name,moblie_301_domain_name,project_name,project_name,project_name,moblie_301_domain_name,index_fine,project_name,domain_name,project_name,project_name,project_name,index_fine)
+            f.write(n_content)
+            f.close()
+            if(os.path.exists(nginx_config_dir+project_name+'_www.conf')):
+                os.remove(nginx_config_dir+project_name+'_www.conf')
         return "Success!"
     except f:
         return "Error to create nginx config file "
