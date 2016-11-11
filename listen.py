@@ -40,7 +40,8 @@ while 1:
         print file1
         print("start work")
         pname=file1[12:-4]
-        shutil.rmtree('./work')
+        if os.path.exists('./work'):
+         shutil.rmtree('./work')
         os.makedirs('./work')
         shutil.move('./source/'+file1,'./work/')
         project_work_dir=myclass.unzipsoucefile('./work/'+file1,'./work/')
