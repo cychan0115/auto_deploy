@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+proxy_connect_timeout 10;
+proxy_read_timeout 180;
+proxy_send_timeout 5;
+proxy_temp_path /tmp/temp_dir;
+proxy_cache_path /data/www/cache levels=1:2 keys_zone=cache_one:100m inactive=1d max_size=10g;
+</body>
+</html>
