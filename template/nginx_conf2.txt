@@ -24,7 +24,7 @@ server {
             set $mobile_rewrite perform;
         }
         root   /data/www/auto_deploy/mobile/%s/%s;
-        access_log  logs/%s.access.log  main;
+        access_log  /data/www/auto_deploy/logs/%s.access.log  main;
                 location ~ .*\.(gif|jpg|png|css|js)(.*) {
             proxy_cache cache_one;
             proxy_cache_valid 200 302 24h;
@@ -48,8 +48,8 @@ server {
                         add_header Set-Cookie 'CookieMoblie=2';
                 }
                 index %s;
+        }
 }
-
 server {
         listen       80;
         server_name %s.networkgrand.com %s;
