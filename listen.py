@@ -21,6 +21,10 @@ from xml.dom import minidom
 ##############################################################################
 
 source_dir='./source'
+if os.path.exists(source_dir):
+    print 'source dir config ok'
+else:
+    os.makedirs(source_dir)
 print 'start.',
 while 1:
   time.sleep(1)
