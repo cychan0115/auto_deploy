@@ -55,23 +55,10 @@ def CreateNginxConfigFile(project_type,project_name,domain_name,nginx_static_tem
         return "Error to create nginx config file "
 
 def UnzipSouceFile(source_file_path, destination_dir):
-    if os.path.exists(destination_dir):
-        shutil.rmtree(destination_dir)
-    destination_dir += '/'
-    z = zipfile.ZipFile(source_file_path, 'r')
-    try:
-        for file in z.namelist():
-            outfile_path = destination_dir + file
-            if file.endswith('/'):
-                os.makedirs(outfile_path)
-            else:
-                outfile = open(outfile_path, 'wb')
-                outfile.write(z.read(file))
-                outfile.close()
-        z.close()
-    except file:
-        return 'error'
-    return 'Success'
-
+        try:
+         os.system('unzip '+source_file_path+' -d '+destination_dir)
+         return 'ok'
+        except:
+            return 'err'
 
 

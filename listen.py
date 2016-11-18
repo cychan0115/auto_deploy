@@ -31,7 +31,7 @@ while 1:
   filelist=os.listdir(source_dir)
   configflie='null'
   for file1 in filelist:
-   if file1[-9:] == '.zip.done' and file1[0:12] == 'Auto_Deploy_':
+   if file1[-9:] == '.zip.done'and file1[0:12] == 'Auto_Deploy_':
     print 'get start single..'
     os.remove('./source/'+file1)
     file1=file1[0:-5]
@@ -44,7 +44,8 @@ while 1:
          shutil.rmtree('./work')
         os.makedirs('./work')
         shutil.move('./source/'+file1,'./work/')
-        project_work_dir=myclass.unzipsoucefile('./work/'+file1,'./work/')
+        os.system('unzip ./work/'+file1 +' -d ./work/')
+        #project_work_dir=myclass.unzipsoucefile('./work/'+file1,'./work/')
         configflie='./work/'+pname+'/config.xml'
         if main.main(configflie,'./work/'+file1,):
             shutil.rmtree('./work')

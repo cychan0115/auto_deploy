@@ -24,7 +24,10 @@ if sys.getdefaultencoding() != default_encoding:
       return False
 
     def unzipsoucefile(source_file_path, destination_dir):
-        destination_dir += '/'
+        if destination_dir[len(destination_dir)-1]=='/':
+            destination_dir=destination_dir
+        else:
+            destination_dir += '/'
         z = zipfile.ZipFile(source_file_path, 'r')
         for file1 in z.namelist():
             outfile_path = destination_dir + file1
