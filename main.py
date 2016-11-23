@@ -33,13 +33,13 @@ def main ( configfile , sourcefile ) :
     root = doc.documentElement
     projects = root.getElementsByTagName ( 'project' )
     for project in projects :
-        project_name = project.getElementsByTagName ( "name" ) [ 0 ].childNodes [ 0 ].nodeValue
-        operation_type = project.getElementsByTagName ( "operation_type" ) [ 0 ].childNodes [ 0 ].nodeValue
+        project_name = getText(project.getElementsByTagName ( "name" ))
+        operation_type = getText(project.getElementsByTagName ( "operation_type" ))
         domain_name =  getText(project.getElementsByTagName ( "domain_name" ))
-        project_type = project.getElementsByTagName ( "project_type" ) [ 0 ].childNodes [ 0 ].nodeValue
+        project_type = getText(project.getElementsByTagName ( "project_type" ))
         moblie_301_domain_name =  getText(project.getElementsByTagName ( "moblie_301_domain_name" ))
         moblie_301_project_name =  getText(project.getElementsByTagName ( "moblie_301_project_name" ))
-        version = project.getElementsByTagName ( "version" ) [ 0 ].childNodes [ 0 ].nodeValue
+        version = getText(project.getElementsByTagName ( "version" ))
 
         # connect_email=project.getElementsByTagName("connect_email")[0].childNodes[0].nodeValue
         # note=project.getElementsByTagName("note")[0].childNodes[0].nodeValue
@@ -49,7 +49,7 @@ def main ( configfile , sourcefile ) :
         # send_mail_pass=project.getElementsByTagName("send_mail_pass")[0].childNodes[0].nodeValue
         # auto_config_path=project.getElementsByTagName("auto_config_path")[0].childNodes[0].nodeValue
         # nginx_config_dir= project.getElementsByTagName("nginx_config_dir")[0].childNodes[0].nodeValue
-        nginx_config_dir = './config/'
+        nginx_config_dir = '/config/nginx/'
         # nginx_www_dir= project.getElementsByTagName("nginx_www_dir")[0].childNodes[0].nodeValue
         nginx_www_dir = '/data/www/auto_deploy/'
         # nginx_static_template_only_www=project.getElementsByTagName("nginx_static_template_only_www")[0].childNodes[0].nodeValue
@@ -58,7 +58,7 @@ def main ( configfile , sourcefile ) :
         nginx_static_template_301 = './template/nginx_conf2.txt'
         # rollback_path=project.getElementsByTagName("rollback_path")[0].childNodes[0].nodeValue
         rollback_path = '/data/rollback/'
-        index_define='index.html'
+        index_define='./'+getText(project.getElementsByTagName ( "index_path" ))
     try :
         #############################################################################
         #			new project on line
@@ -92,8 +92,8 @@ def main ( configfile , sourcefile ) :
             else :
                 print('Unzip Err!!')
 
-            # if newproject.RestartNginx ( ) :
-            #     print('Restart is good')
+            if newproject.RestartNginx ( ) :
+                 print('Restart is good')
             #     import mail
             #     freeback = mail.pysendmail ( send_mail_address , connect_email , operation_type , project_name ,
             #                                  domain_name , send_mail_host , send_mail_name , send_mail_pass );
@@ -116,7 +116,8 @@ def main ( configfile , sourcefile ) :
                                                   nginx_config_dir , index_define , moblie_301_project_name ,
                                                   moblie_301_domain_name ) :
                 print('Create Nginx File is good')
-
+            if (project_type != 'www') :
+                project_type = 'mobile'
             sourcefile2 = re.sub ( 'Auto_Deploy_(\w+).zip' , 'Auto_Deploy_\\1_' + project_type + '.zip' , sourcefile )
             os.rename ( sourcefile , sourcefile2 )
 
@@ -134,10 +135,10 @@ def main ( configfile , sourcefile ) :
 
             import updateproject
             import newproject
-            if updateproject.makerollbackdir ( nginx_www_dir + project_name , rollback_path + project_name , version ) :
-                print('make rollbak file done')
             if (project_type != 'www') :
                 project_type = 'mobile'
+            if updateproject.makerollbackdir ( nginx_www_dir + '/'+project_type+'/'+project_name , rollback_path + project_name , version ) :
+                print('make rollbak file done')
             sourcefile2 = re.sub ( 'Auto_Deploy_(\w+).zip' , 'Auto_Deploy_\\1_' + project_type + '.zip' , sourcefile )
             os.rename ( sourcefile , sourcefile2 )
             if newproject.UnzipSouceFile ( sourcefile2 , nginx_www_dir + project_type ) :
