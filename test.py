@@ -1,9 +1,10 @@
 #upload file
-import time
+
 import commands
 import os
-import logging
 import shutil
+import logging
+import time
 now = int(time.time())
 timeArray = time.localtime(now)
 otherStyleTime = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)

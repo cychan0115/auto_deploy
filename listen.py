@@ -6,7 +6,16 @@ import time
 import shutil
 import main
 from imp import reload
-
+import logging
+import time
+now = int(time.time())
+timeArray = time.localtime(now)
+otherStyleTime = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
+logging.basicConfig(level=logging.DEBUG,
+                format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
+                datefmt='%a, %d %b %Y %H:%M:%S',
+                filename='myapp_listen.log',
+                filemode='w')
 
 default_encoding = 'utf-8'
 if sys.getdefaultencoding() != default_encoding:
@@ -31,12 +40,14 @@ while 1:
   for file1 in filelist:
    if file1[-9:] == '.zip.done'and file1[0:12] == 'Auto_Deploy_':
     print 'get start single..'
+    logging.info('get start single..')
     os.remove('./source/'+file1)
     file1=file1[0:-5]
     print file1
     if os.path.exists('./source/'+file1):
         print file1
         print("start work")
+        logging.info("start work")
         pname=file1[12:-4]
         if os.path.exists('./work'):
          shutil.rmtree('./work')
