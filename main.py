@@ -69,7 +69,7 @@ def main ( configfile , sourcefile ) :
         #############################################################################
         #			new project on line
         #############################################################################
-        if operation_type == 'new' :
+        if operation_type == 'create' :
 
             print('starting create ' + project_name + project_type + '.......')
             logging.info('starting create ' + project_name + project_type + '.......')
