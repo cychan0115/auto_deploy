@@ -1,0 +1,11 @@
+mkdir -p /soft
+git clone
+mkdir /soft/auto_depoly/source
+chmod 777 /soft/auto_deploy/source
+mkdir -p /data/www/auto_deploy
+mkdir -p /data/www/auto_deploy/www
+mkdir -p /data/www/auto_deploy/mobile
+ln -s /etc/nginx/sites-enabled /config/nginx
+mkdir /tmp/del
+chmod 777 /tmp/del
+mkdir -p /data/www/auto_deploy/logs/

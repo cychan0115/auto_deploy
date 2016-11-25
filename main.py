@@ -42,6 +42,8 @@ def main ( configfile , sourcefile ) :
         project_name = getText(project.getElementsByTagName ( "name" ))
         operation_type = getText(project.getElementsByTagName ( "operation_type" ))
         domain_name =  getText(project.getElementsByTagName ( "domain_name" ))
+        if domain_name=='None':
+            domain_name=project_name+'.com'
         project_type = getText(project.getElementsByTagName ( "project_type" ))
         moblie_301_domain_name =  getText(project.getElementsByTagName ( "moblie_301_domain_name" ))
         moblie_301_project_name =  getText(project.getElementsByTagName ( "moblie_301_project_name" ))
