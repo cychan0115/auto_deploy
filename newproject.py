@@ -26,7 +26,7 @@ if sys.getdefaultencoding() != default_encoding:
 #############################################################################
 def RestartNginx():
     try:
-        f=os.system('sh ./script/restart_nginx.sh')
+        f=os.system('sh /sh/restart_nginx.sh')
         logging.info('restart nginx')
     except f:
         return f
