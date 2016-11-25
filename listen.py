@@ -4,7 +4,6 @@ import sys
 import os
 import time
 import shutil
-import myclass
 import main
 from imp import reload
 
@@ -13,7 +12,6 @@ default_encoding = 'utf-8'
 if sys.getdefaultencoding() != default_encoding:
     reload(sys)
     sys.setdefaultencoding(default_encoding)
-from xml.dom import minidom
 #############################################################################
 #			Search source file control
 #i will search deploy.todolist file
