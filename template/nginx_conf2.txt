@@ -52,7 +52,7 @@ server {
 }
 server {
         listen       80;
-        server_name %s.networkgrand.co %s.networkgrand.com %s;
+        server_name %s.networkgrand.com %s.networkgrand.com %s;
         root   /data/www/auto_deploy/www/%s/%s;
         access_log  /data/www/auto_deploy/logs/%s_m.access.log  main;
         location ~ .*\.(gif|jpg|png|css|js)(.*) {
