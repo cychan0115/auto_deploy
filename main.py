@@ -80,10 +80,12 @@ def main ( configfile , sourcefile ) :
 
             import newproject
 
-            if project_type == 'www' :
+            if project_type == 'other' :
                 nginx_static_template = nginx_static_template_only_www
-            else :
+                project_type_dir='www'
+            if project_type == 'www' :
                 nginx_static_template = nginx_static_template_301
+                project_type_dir='mobile'
 
             if newproject.CreateNginxConfigFile ( project_type , project_name , domain_name , nginx_static_template ,
                                                   nginx_config_dir , index_define , moblie_301_project_name ,
@@ -91,9 +93,7 @@ def main ( configfile , sourcefile ) :
                 print('Create Nginx File is good')
                 logging.info(project_name+'Create Nginx File is good')
 
-            if (project_type != 'www') :
-                project_type = 'mobile'
-            sourcefile2 = re.sub ( 'Auto_Deploy_(\w+).zip' , 'Auto_Deploy_\\1_' + project_type + '.zip' , sourcefile )
+            sourcefile2 = re.sub ( 'Auto_Deploy_(\w+).zip' , 'Auto_Deploy_\\1_' + project_type_dir + '.zip' , sourcefile )
             os.rename ( sourcefile , sourcefile2 )
 
 
