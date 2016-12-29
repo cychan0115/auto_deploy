@@ -122,15 +122,18 @@ def main ( configfile , sourcefile ,filename ) :
 
             if os.path.exists(nginx_www_dir+project_type_dir+'/'+filename):
                 shutil.move(nginx_www_dir+project_type_dir+'/'+filename,'/data/rollback/'+otherStyleTime+'_'+filename)
+
             if newproject.UnzipSouceFile ( sourcefile2 , nginx_www_dir + project_type_dir ) :
                 print(project_name+'Unzip Source File is good')
                 logging(project_name+'Unzip Source File is good')
             else :
                 print(project_name+'Unzip Err!!')
                 logging.debug(project_name+'Unzip Err!!')
+
             if newproject.RestartNginx ( ) :
                  print(project_name+'Restart is good')
                  logging.info(project_name+'Restart is good')
+
             #     import mail
             #     freeback = mail.pysendmail ( send_mail_address , connect_email , operation_type , project_name ,
             #                                  domain_name , send_mail_host , send_mail_name , send_mail_pass );
