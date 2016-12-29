@@ -6,6 +6,7 @@ import re
 from imp import reload
 import logging
 import time
+import shutil
 now = int(time.time())
 timeArray = time.localtime(now)
 otherStyleTime = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
@@ -34,7 +35,7 @@ from xml.dom import minidom
 #			read config from xml
 # this part is very suck will update in sometime
 ##############################################################################
-def main ( configfile , sourcefile ) :
+def main ( configfile , sourcefile ,filename ) :
     doc = minidom.parse ( configfile )
     root = doc.documentElement
     projects = root.getElementsByTagName ( 'project' )
@@ -73,10 +74,8 @@ def main ( configfile , sourcefile ) :
         #############################################################################
         if operation_type == 'create' :
 
-            print('starting create ' + project_name + project_type + '.......')
+            print('starting create ' + project_name + ' '+ project_type + '.......')
             logging.info('starting create ' + project_name + project_type + '.......')
-
-            project_namezip = './source/' + project_name + ".zip"
 
             import newproject
 
@@ -89,15 +88,16 @@ def main ( configfile , sourcefile ) :
 
             if newproject.CreateNginxConfigFile ( project_type , project_name , domain_name , nginx_static_template ,
                                                   nginx_config_dir , index_define , moblie_301_project_name ,
-                                                  moblie_301_domain_name,second_level_domain ) :
+                                                  moblie_301_domain_name,second_level_domain ,filename) :
                 print('Create Nginx File is good')
                 logging.info(project_name+'Create Nginx File is good')
 
             sourcefile2 = re.sub ( 'Auto_Deploy_(\w+).zip' , 'Auto_Deploy_\\1_' + project_type_dir + '.zip' , sourcefile )
             os.rename ( sourcefile , sourcefile2 )
 
-
-            if newproject.UnzipSouceFile ( sourcefile2 , nginx_www_dir + project_type ) :
+            if os.path.exists(nginx_www_dir+project_type_dir+'/'+filename):
+                shutil.move(nginx_www_dir+project_type_dir+'/'+filename,'/data/rollback/'+otherStyleTime+'_'+filename)
+            if newproject.UnzipSouceFile ( sourcefile2 , nginx_www_dir + project_type_dir ) :
                 print(project_name+'Unzip Source File is good')
                 logging(project_name+'Unzip Source File is good')
             else :
@@ -110,81 +110,31 @@ def main ( configfile , sourcefile ) :
             #     freeback = mail.pysendmail ( send_mail_address , connect_email , operation_type , project_name ,
             #                                  domain_name , send_mail_host , send_mail_name , send_mail_pass );
             #     print freeback
+
         #############################################################################
-        #			new config
-        #############################################################################
-        if operation_type == 'configupdate' :
-
-            print('starting update config ' + project_name + project_type + '.......')
-            logging.info('starting update config ' + project_name + project_type + '.......')
-
-            import newproject
-
-            if project_type == 'www' :
-                nginx_static_template = nginx_static_template_only_www
-            else :
-                nginx_static_template = nginx_static_template_301
-
-            if newproject.CreateNginxConfigFile ( project_type , project_name , domain_name , nginx_static_template ,
-                                                  nginx_config_dir , index_define , moblie_301_project_name ,
-                                                  moblie_301_domain_name,second_level_domain ) :
-                print(project_name +'Create Nginx File is good')
-                logging.info(project_name +'Create Nginx File is good')
-            if (project_type != 'www') :
-                project_type = 'mobile'
-            sourcefile2 = re.sub ( 'Auto_Deploy_(\w+).zip' , 'Auto_Deploy_\\1_' + project_type + '.zip' , sourcefile )
-            os.rename ( sourcefile , sourcefile2 )
-
-            if newproject.RestartNginx ( ) :
-                print(project_name +'Restart is good')
-                logging.info(project_name +'Restart is good')
-                # import mail
-                # freeback = mail.pysendmail ( send_mail_address , connect_email , operation_type , project_name ,
-                #                              domain_name , send_mail_host , send_mail_name , send_mail_pass );
-                # print freeback
-        #############################################################################
-        #			update project
+        #			update
         #############################################################################
         if operation_type == 'update' :
-            print(project_name+'starting update.......')
-            logging.info(project_name+'starting update.......')
-            import updateproject
-            import newproject
-            if (project_type != 'www') :
-                project_type = 'mobile'
-            if updateproject.makerollbackdir ( nginx_www_dir + '/'+project_type+'/'+project_name , rollback_path + project_name , version ) :
-                print(project_name+'make rollbak file done')
-                logging.info(project_name+'make rollbak file done')
-            sourcefile2 = re.sub ( 'Auto_Deploy_(\w+).zip' , 'Auto_Deploy_\\1_' + project_type + '.zip' , sourcefile )
-            os.rename ( sourcefile , sourcefile2 )
-            if newproject.UnzipSouceFile ( sourcefile2 , nginx_www_dir + project_type ) :
+
+            print('starting update ' + project_name + ' '+ project_type + '.......')
+            logging.info('starting create ' + project_name + project_type + '.......')
+
+
+            if os.path.exists(nginx_www_dir+project_type_dir+'/'+filename):
+                shutil.move(nginx_www_dir+project_type_dir+'/'+filename,'/data/rollback/'+otherStyleTime+'_'+filename)
+            if newproject.UnzipSouceFile ( sourcefile2 , nginx_www_dir + project_type_dir ) :
                 print(project_name+'Unzip Source File is good')
-                logging.info(project_name+'Unzip Source File is good')
+                logging(project_name+'Unzip Source File is good')
             else :
                 print(project_name+'Unzip Err!!')
                 logging.debug(project_name+'Unzip Err!!')
-                # import mail
-                # freeback = mail.pysendmail ( send_mail_address , connect_email , operation_type , project_name ,
-                #                              domain_name , send_mail_host , send_mail_name , send_mail_pass );
-                # print freeback
-                # # todo del the source file
-
-        #############################################################################
-        #			rollback project
-        #############################################################################
-        if operation_type == 'rollback' :
-            import rollback
-            if rollback.Rollback ( nginx_www_dir + project_name ,
-                                   rollback_path + project_name + '_version_' + version ) :
-                print(project_name+"Rollback success")
-                logging.info(project_name+"Rollback success")
-                # import mail
-                # freeback = mail.pysendmail ( send_mail_address , connect_email , operation_type , project_name ,
-                #                              domain_name , send_mail_host , send_mail_name , send_mail_pass );
-                # print freeback
-                # # todo del the source file
-
-        os.remove ( nginx_www_dir + project_name + '/config.xml' )
+            if newproject.RestartNginx ( ) :
+                 print(project_name+'Restart is good')
+                 logging.info(project_name+'Restart is good')
+            #     import mail
+            #     freeback = mail.pysendmail ( send_mail_address , connect_email , operation_type , project_name ,
+            #                                  domain_name , send_mail_host , send_mail_name , send_mail_pass );
+            #     print freeback
     except :
         return project_name+'err'
     return project_name+'success'

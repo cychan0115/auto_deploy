@@ -32,9 +32,9 @@ def RestartNginx():
         return f
     return f
 
-def CreateNginxConfigFile(project_type,project_name,domain_name,nginx_static_template,nginx_config_dir,index_fine,moblie_301_project_name,moblie_301_domain_name,second_level_domain):
+def CreateNginxConfigFile(project_type,project_name,domain_name,nginx_static_template,nginx_config_dir,index_fine,moblie_301_project_name,moblie_301_domain_name,second_level_domain,filename):
     try:
-        if project_type=='www':
+        if project_type=='other':
             #check mobile config
             if(os.path.exists(nginx_config_dir+project_name+'_mobile.conf')):
                 #don do anything
@@ -43,11 +43,11 @@ def CreateNginxConfigFile(project_type,project_name,domain_name,nginx_static_tem
             else:
                 f=open(nginx_config_dir+project_name+'_'+project_type+'.conf','w')
                 n_template=open(nginx_static_template).read()
-                n_content=n_template%(second_level_domain,project_name,domain_name,project_name,project_name,project_name,index_fine)
+                n_content=n_template%(second_level_domain,project_name,domain_name,filename,filename,filename,index_fine)
                 f.write(n_content)
                 f.close()
         else:
-            project_type='mobile'
+            project_type='www'
             if(os.path.exists(nginx_config_dir+project_name+'_mobile.conf')):
                 os.remove(nginx_config_dir+project_name+'_mobile.conf')
             f=open(nginx_config_dir+project_name+'_'+project_type+'.conf','w')

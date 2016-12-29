@@ -56,7 +56,7 @@ while 1:
         os.system('unzip ./work/'+file1 +' -d ./work/')
         #project_work_dir=myclass.unzipsoucefile('./work/'+file1,'./work/')
         configflie='./work/'+pname+'/config.xml'
-        if main.main(configflie,'./work/'+file1,):
+        if main.main(configflie,'./work/'+file1,pname):
             shutil.rmtree('./work')
             os.makedirs('./work')
             #os.remove('./work/'+pname)#todo list on mac err permitted
