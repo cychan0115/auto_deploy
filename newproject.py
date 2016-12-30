@@ -25,12 +25,8 @@ if sys.getdefaultencoding() != default_encoding:
 #       3 create a v0.1 version by this case
 #############################################################################
 def RestartNginx():
-    try:
         f=os.system('sh /sh/restart_nginx.sh')
-        logging.info('restart nginx')
-    except f:
         return f
-    return f
 
 def CreateNginxConfigFile(project_type,project_name,domain_name,nginx_static_template,nginx_config_dir,index_fine,moblie_301_project_name,moblie_301_domain_name,second_level_domain,filename):
     try:
