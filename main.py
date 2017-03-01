@@ -74,8 +74,8 @@ def main ( configfile , sourcefile ,filename ) :
         #############################################################################
         if operation_type == 'update' :
 
-            print('starting create ' + project_name + ' '+ project_type + '.......')
-            logging.info('starting create ' + project_name + project_type + '.......')
+            print('starting update ' + project_name + ' '+ project_type + '.......')
+            logging.info('starting update ' + project_name + project_type + '.......')
 
             import newproject
 
@@ -100,12 +100,10 @@ def main ( configfile , sourcefile ,filename ) :
 
             if newproject.UnzipSouceFile ( sourcefile2 , nginx_www_dir + project_type_dir ) :
                 print(project_name+'Unzip Source File is good')
-                logging(project_name+'Unzip Source File is good')
-            else :
-                print(project_name+'Unzip Err!!')
-                logging.debug(project_name+'Unzip Err!!')
-
-
+            #     logging(project_name+'Unzip Source File is good')
+            # else :
+            #     print(project_name+'Unzip Err!!')
+            #     logging.debug(project_name+'Unzip Err!!')
             import mail
             send_mail_address='cy.chen@networkgrand.com'
             connect_email='13926262295@139.com'
