@@ -86,18 +86,16 @@ def main ( configfile , sourcefile ,filename ) :
                 nginx_static_template = nginx_static_template_301
                 project_type_dir='mobile'
 
-            if newproject.CreateNginxConfigFile ( project_type , project_name , domain_name , nginx_static_template ,
-                                                  nginx_config_dir , index_define , moblie_301_project_name ,
-                                                  moblie_301_domain_name,second_level_domain ,filename) :
-                print('Create Nginx File is good')
-                logging.info(project_name+'Create Nginx File is good')
-
             sourcefile2 = re.sub ( 'Auto_Deploy_(\w+).zip' , 'Auto_Deploy_\\1_' + project_type_dir + '.zip' , sourcefile )
             os.rename ( sourcefile , sourcefile2 )
 
             print(nginx_www_dir+project_type_dir+'/'+filename)
             if os.path.exists(nginx_www_dir+project_type_dir+'/'+filename):
+                print('move files to rollback')
                 shutil.move(nginx_www_dir+project_type_dir+'/'+filename,'/data/rollback/'+otherStyleTime+'_'+filename)
+            else:
+                print('exists not ture')
+
             if newproject.UnzipSouceFile ( sourcefile2 , nginx_www_dir + project_type_dir ) :
                 print(project_name+'Unzip Source File is good')
                 logging(project_name+'Unzip Source File is good')
