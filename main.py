@@ -104,9 +104,6 @@ def main ( configfile , sourcefile ,filename ) :
                 print(project_name+'Unzip Err!!')
                 logging.debug(project_name+'Unzip Err!!')
 
-            if newproject.RestartNginx ( ) :
-                 print(project_name+'Restart is good')
-                 logging.info(project_name+'Restart is good')
 
             import mail
             send_mail_address='cy.chen@networkgrand.com'
@@ -115,18 +112,22 @@ def main ( configfile , sourcefile ,filename ) :
             send_mail_name='cy.chen@networkgrand.com'
             send_mail_pass='123qwe!@#QWE!@#QWE'
             freeback = mail.pysendmail ( send_mail_address , connect_email , operation_type , project_name ,
-                                          domain_name , send_mail_host , send_mail_name , send_mail_pass );
+                                         domain_name , send_mail_host , send_mail_name , send_mail_pass );
             print freeback
             connect_email='house.liu@networkgrand.com'
             freeback = mail.pysendmail ( send_mail_address , connect_email , operation_type , project_name ,
-                                          domain_name , send_mail_host , send_mail_name , send_mail_pass );
+                                         domain_name , send_mail_host , send_mail_name , send_mail_pass );
             print freeback
             connect_email='bingyu.yue@networkgrand.com'
             freeback = mail.pysendmail ( send_mail_address , connect_email , operation_type , project_name ,
-                                          domain_name , send_mail_host , send_mail_name , send_mail_pass );
+                                         domain_name , send_mail_host , send_mail_name , send_mail_pass );
             print freeback
 
-        #############################################################################
+            if newproject.RestartNginx ( ) :
+                print(project_name+'Restart is good')
+                logging.info(project_name+'Restart is good')
+
+            #############################################################################
         #			update
         #############################################################################
         if operation_type == 'update' :
@@ -145,9 +146,6 @@ def main ( configfile , sourcefile ,filename ) :
                 print(project_name+'Unzip Err!!')
                 logging.debug(project_name+'Unzip Err!!')
 
-            if newproject.RestartNginx ( ) :
-                 print(project_name+'Restart is good')
-                 logging.info(project_name+'Restart is good')
             import mail
             send_mail_address='cy.chen@networkgrand.com'
             connect_email='13926262295@139.com'
@@ -155,16 +153,20 @@ def main ( configfile , sourcefile ,filename ) :
             send_mail_name='cy.chen@networkgrand.com'
             send_mail_pass='123qwe!@#QWE!@#QWE'
             freeback = mail.pysendmail ( send_mail_address , connect_email , operation_type , project_name ,
-                                          domain_name , send_mail_host , send_mail_name , send_mail_pass );
+                                         domain_name , send_mail_host , send_mail_name , send_mail_pass );
             print freeback
             connect_email='house.liu@networkgrand.com'
             freeback = mail.pysendmail ( send_mail_address , connect_email , operation_type , project_name ,
-                                          domain_name , send_mail_host , send_mail_name , send_mail_pass );
+                                         domain_name , send_mail_host , send_mail_name , send_mail_pass );
             print freeback
             connect_email='bingyu.yue@networkgrand.com'
             freeback = mail.pysendmail ( send_mail_address , connect_email , operation_type , project_name ,
-                                          domain_name , send_mail_host , send_mail_name , send_mail_pass );
+                                         domain_name , send_mail_host , send_mail_name , send_mail_pass );
             print freeback
+
+            if newproject.RestartNginx ( ) :
+                print(project_name+'Restart is good')
+                logging.info(project_name+'Restart is good')
     except :
         return project_name+'err'
     return project_name+'success'
