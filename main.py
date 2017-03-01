@@ -137,6 +137,8 @@ def main ( configfile , sourcefile ,filename ) :
 
 
             if os.path.exists(nginx_www_dir+project_type_dir+'/'+filename):
+                print nginx_www_dir+project_type_dir+'/'+filename
+                print '/data/rollback/'+otherStyleTime+'_'+filename
                 shutil.move(nginx_www_dir+project_type_dir+'/'+filename,'/data/rollback/'+otherStyleTime+'_'+filename)
 
             if newproject.UnzipSouceFile ( sourcefile2 , nginx_www_dir + project_type_dir ) :
