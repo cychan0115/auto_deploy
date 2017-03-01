@@ -24,7 +24,7 @@ if sys.getdefaultencoding() != default_encoding:
 #       2 move this file to nginx work path usually is /data/www/auto_depoly  UnzipSouceFile
 #       3 create a v0.1 version by this case
 #############################################################################
-def RestartNginx():
+def     RestartNginx():
         f=os.system('sh /sh/restart_nginx.sh')
         return f
 

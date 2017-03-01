@@ -103,13 +103,20 @@ def main ( configfile , sourcefile ,filename ) :
             else :
                 print(project_name+'Unzip Err!!')
                 logging.debug(project_name+'Unzip Err!!')
+
             if newproject.RestartNginx ( ) :
                  print(project_name+'Restart is good')
                  logging.info(project_name+'Restart is good')
-            #     import mail
-            #     freeback = mail.pysendmail ( send_mail_address , connect_email , operation_type , project_name ,
-            #                                  domain_name , send_mail_host , send_mail_name , send_mail_pass );
-            #     print freeback
+
+            import mail
+            send_mail_address='cy.chen@networkgrand.com'
+            connect_email='13926262295@139.com'
+            send_mail_host='smtp.mxhichina.com'
+            send_mail_name='cy.chen@networkgrand.com'
+            send_mail_pass='123qwe!@#QWE!@#QWE'
+            freeback = mail.pysendmail ( send_mail_address , connect_email , operation_type , project_name ,
+                                          domain_name , send_mail_host , send_mail_name , send_mail_pass );
+            print freeback
 
         #############################################################################
         #			update
