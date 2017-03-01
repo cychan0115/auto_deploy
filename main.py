@@ -117,6 +117,14 @@ def main ( configfile , sourcefile ,filename ) :
             freeback = mail.pysendmail ( send_mail_address , connect_email , operation_type , project_name ,
                                           domain_name , send_mail_host , send_mail_name , send_mail_pass );
             print freeback
+            connect_email='house.liu@networkgrand.com'
+            freeback = mail.pysendmail ( send_mail_address , connect_email , operation_type , project_name ,
+                                          domain_name , send_mail_host , send_mail_name , send_mail_pass );
+            print freeback
+            connect_email='bingyu.yue@networkgrand.com'
+            freeback = mail.pysendmail ( send_mail_address , connect_email , operation_type , project_name ,
+                                          domain_name , send_mail_host , send_mail_name , send_mail_pass );
+            print freeback
 
         #############################################################################
         #			update
@@ -146,6 +154,14 @@ def main ( configfile , sourcefile ,filename ) :
             send_mail_host='smtp.mxhichina.com'
             send_mail_name='cy.chen@networkgrand.com'
             send_mail_pass='123qwe!@#QWE!@#QWE'
+            freeback = mail.pysendmail ( send_mail_address , connect_email , operation_type , project_name ,
+                                          domain_name , send_mail_host , send_mail_name , send_mail_pass );
+            print freeback
+            connect_email='house.liu@networkgrand.com'
+            freeback = mail.pysendmail ( send_mail_address , connect_email , operation_type , project_name ,
+                                          domain_name , send_mail_host , send_mail_name , send_mail_pass );
+            print freeback
+            connect_email='bingyu.yue@networkgrand.com'
             freeback = mail.pysendmail ( send_mail_address , connect_email , operation_type , project_name ,
                                           domain_name , send_mail_host , send_mail_name , send_mail_pass );
             print freeback
