@@ -123,7 +123,10 @@ def main ( configfile , sourcefile ,filename ) :
             freeback = mail.pysendmail ( send_mail_address , connect_email , operation_type , project_name ,
                                          domain_name , send_mail_host , send_mail_name , send_mail_pass );
             print freeback
-
+            connect_email='cy.chen@networkgrand.com'
+            freeback = mail.pysendmail ( send_mail_address , connect_email , operation_type , project_name ,
+                                         domain_name , send_mail_host , send_mail_name , send_mail_pass );
+            print freeback
             if newproject.RestartNginx ( ) :
                 print(project_name+'Restart is good')
                 logging.info(project_name+'Restart is good')
@@ -179,6 +182,10 @@ def main ( configfile , sourcefile ,filename ) :
                                          domain_name , send_mail_host , send_mail_name , send_mail_pass );
             print freeback
             connect_email='bingyu.yue@networkgrand.com'
+            freeback = mail.pysendmail ( send_mail_address , connect_email , operation_type , project_name ,
+                                         domain_name , send_mail_host , send_mail_name , send_mail_pass );
+            print freeback
+            connect_email='cy.chen@networkgrand.com'
             freeback = mail.pysendmail ( send_mail_address , connect_email , operation_type , project_name ,
                                          domain_name , send_mail_host , send_mail_name , send_mail_pass );
             print freeback
