@@ -92,6 +92,8 @@ def main ( configfile , sourcefile ,filename ) :
             print(nginx_www_dir+project_type_dir+'/'+filename)
             if os.path.exists(nginx_www_dir+project_type_dir+'/'+filename):
                 print('move files to rollback')
+                if os.path.exists('/data/rollback/'+otherStyleTime+'_'+filename):
+                    os.rename ( '/data/rollback/'+otherStyleTime+'_'+filename , '/data/rollback/'+otherStyleTime+'_'+filename+otherStyleTime )
                 shutil.move(nginx_www_dir+project_type_dir+'/'+filename,'/data/rollback/'+otherStyleTime+'_'+filename)
             else:
                 print('exists not ture')
