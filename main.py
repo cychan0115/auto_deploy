@@ -93,14 +93,18 @@ def main ( configfile , sourcefile ,filename ) :
             logging.inio(nginx_www_dir+project_type_dir+'/'+filename)
             if os.path.exists(nginx_www_dir+project_type_dir+'/'+filename):
                 logging.inio('move files to rollback')
+                print('move files to rollback')
                 if os.path.exists('/data/rollback/'+otherStyleTime+'_'+filename):
+                    print('move files to rollback++++')
                     os.rename ( '/data/rollback/'+otherStyleTime+'_'+filename , '/data/rollback/'+otherStyleTime+'_'+filename+otherStyleTime )
-                shutil.move(nginx_www_dir+project_type_dir+'/'+filename,'/data/rollback/'+otherStyleTime+'_'+filename)
+                shutil.move(nginx_www_dir+project_type_dir+'/'+filename,'/data/rollback/'+otherStyleTime+'_'+filename+otherStyleTime)
             else:
                 logging.inio('exists not ture')
+                print('exists not ture')
 
             if newproject.UnzipSouceFile ( sourcefile2 , nginx_www_dir + project_type_dir ) :
                 logging.inio(project_name+'Unzip Source File is good')
+                print(project_name+'Unzip Source File is good')
             else :
                  print(project_name+'Unzip Err!!')
             import mail
