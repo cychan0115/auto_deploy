@@ -89,7 +89,7 @@ def main ( configfile , sourcefile ,filename ) :
             sourcefile2 = re.sub ( 'Auto_Deploy_(\w+).zip' , 'Auto_Deploy_\\1_' + project_type_dir + '.zip' , sourcefile )
             os.rename ( sourcefile , sourcefile2 )
 
-            print(nginx_www_dir+project_type_dir+'/'+filename)
+            print('check dir exists '+nginx_www_dir+project_type_dir+'/'+filename)
             logging.inio(nginx_www_dir+project_type_dir+'/'+filename)
             if os.path.exists(nginx_www_dir+project_type_dir+'/'+filename):
                 logging.inio('move files to rollback')
@@ -101,7 +101,7 @@ def main ( configfile , sourcefile ,filename ) :
             else:
                 logging.inio('exists not ture')
                 print('exists not ture')
-
+            print('start unzip file')
             if newproject.UnzipSouceFile ( sourcefile2 , nginx_www_dir + project_type_dir ) :
                 logging.inio(project_name+'Unzip Source File is good')
                 print(project_name+'Unzip Source File is good')
