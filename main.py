@@ -90,20 +90,20 @@ def main ( configfile , sourcefile ,filename ) :
             os.rename ( sourcefile , sourcefile2 )
 
             print('check dir exists '+nginx_www_dir+project_type_dir+'/'+filename)
-            logging.inio(nginx_www_dir+project_type_dir+'/'+filename)
+            logging.info('check dir exists '+nginx_www_dir+project_type_dir+'/'+filename)
             if os.path.exists(nginx_www_dir+project_type_dir+'/'+filename):
-                logging.inio('move files to rollback')
+                logging.info('move files to rollback')
                 print('move files to rollback')
                 if os.path.exists('/data/rollback/'+otherStyleTime+'_'+filename):
                     print('move files to rollback++++')
                     os.rename ( '/data/rollback/'+otherStyleTime+'_'+filename , '/data/rollback/'+otherStyleTime+'_'+filename+otherStyleTime )
                 shutil.move(nginx_www_dir+project_type_dir+'/'+filename,'/data/rollback/'+otherStyleTime+'_'+filename+otherStyleTime)
             else:
-                logging.inio('exists not ture')
+                logging.info('exists not ture')
                 print('exists not ture')
             print('start unzip file')
             if newproject.UnzipSouceFile ( sourcefile2 , nginx_www_dir + project_type_dir ) :
-                logging.inio(project_name+'Unzip Source File is good')
+                logging.info(project_name+'Unzip Source File is good')
                 print(project_name+'Unzip Source File is good')
             else :
                  print(project_name+'Unzip Err!!')
