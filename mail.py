@@ -27,7 +27,7 @@ def pysendmail(sender,receivers,mail_type,project_name,domain_name,mail_host,mai
 
 	mail_content=open(mail_template_file).read()
 	operation_c='null'
-	if mail_type == 'new':
+	if mail_type == 'create':
 		operation_c='上线'
 	if mail_type == 'update':
 		operation_c='更新'
