@@ -90,20 +90,19 @@ def main ( configfile , sourcefile ,filename ) :
             os.rename ( sourcefile , sourcefile2 )
 
             print(nginx_www_dir+project_type_dir+'/'+filename)
+            logging.inio(nginx_www_dir+project_type_dir+'/'+filename)
             if os.path.exists(nginx_www_dir+project_type_dir+'/'+filename):
-                print('move files to rollback')
+                logging.inio('move files to rollback')
                 if os.path.exists('/data/rollback/'+otherStyleTime+'_'+filename):
                     os.rename ( '/data/rollback/'+otherStyleTime+'_'+filename , '/data/rollback/'+otherStyleTime+'_'+filename+otherStyleTime )
                 shutil.move(nginx_www_dir+project_type_dir+'/'+filename,'/data/rollback/'+otherStyleTime+'_'+filename)
             else:
-                print('exists not ture')
+                logging.inio('exists not ture')
 
             if newproject.UnzipSouceFile ( sourcefile2 , nginx_www_dir + project_type_dir ) :
-                print(project_name+'Unzip Source File is good')
-                logging.info(project_name+'Unzip Source File is good')
+                logging.inio(project_name+'Unzip Source File is good')
             else :
                  print(project_name+'Unzip Err!!')
-                 logging.debug(project_name+'Unzip Err!!')
             import mail
             send_mail_address='cy.chen@networkgrand.com'
             connect_email='13926262295@139.com'
