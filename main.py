@@ -75,7 +75,7 @@ def main ( configfile , sourcefile ,filename ) :
         if operation_type == 'update' :
 
             print('starting update ' + project_name + ' '+ project_type + '.......')
-            logging.info('starting update ' + project_name + project_type + '.......')
+            logging.info('starting update ' + project_name +'   '+ project_type + '.......')
 
             import newproject
 
@@ -150,7 +150,7 @@ def main ( configfile , sourcefile ,filename ) :
         if operation_type == 'create' :
 
             print('starting create ' + project_name + ' '+ project_type + '.......')
-            logging.info('starting create ' + project_name + project_type + '.......')
+            logging.info('starting create ' + project_name +'   '+ project_type + '.......')
 
             import newproject
 
@@ -185,10 +185,10 @@ def main ( configfile , sourcefile ,filename ) :
 
             import mail
             send_mail_address='cy.chen@networkgrand.com'
-            connect_email='13926262295@139.com'
             send_mail_host='smtp.mxhichina.com'
             send_mail_name='cy.chen@networkgrand.com'
             send_mail_pass='123qwe!@#QWE!@#QWE'
+            connect_email='13926262295@139.com'
             freeback = mail.pysendmail ( send_mail_address , connect_email , operation_type , project_name ,
                                          domain_name , send_mail_host , send_mail_name , send_mail_pass );
             print freeback
@@ -206,5 +206,15 @@ def main ( configfile , sourcefile ,filename ) :
             print freeback
 
     except :
+        logging.info('err')
+        import mail
+        send_mail_address='cy.chen@networkgrand.com'
+        send_mail_host='smtp.mxhichina.com'
+        send_mail_name='cy.chen@networkgrand.com'
+        send_mail_pass='123qwe!@#QWE!@#QWE'
+        connect_email='13926262295@139.com'
+        mail.pysendmail ( send_mail_address , connect_email , 'err!!!' , project_name ,
+                                         domain_name , send_mail_host , send_mail_name , send_mail_pass );
         return project_name+'err'
+
     return project_name+'success'
