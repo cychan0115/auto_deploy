@@ -107,6 +107,11 @@ def main ( configfile , sourcefile ,filename ) :
                 print(project_name+'Unzip Source File is good')
             else :
                  print(project_name+'Unzip Err!!')
+
+            if newproject.RestartNginx ( ) :
+                print(project_name+'Restart is good')
+                logging.info(project_name+'Restart is good')
+
             import mail
             send_mail_address='cy.chen@networkgrand.com'
             connect_email='13926262295@139.com'
@@ -128,9 +133,7 @@ def main ( configfile , sourcefile ,filename ) :
             freeback = mail.pysendmail ( send_mail_address , connect_email , operation_type , project_name ,
                                          domain_name , send_mail_host , send_mail_name , send_mail_pass );
             print freeback
-            if newproject.RestartNginx ( ) :
-                print(project_name+'Restart is good')
-                logging.info(project_name+'Restart is good')
+
 
 
         #############################################################################
@@ -168,6 +171,9 @@ def main ( configfile , sourcefile ,filename ) :
                 print(project_name+'Unzip Err!!')
                 logging.debug(project_name+'Unzip Err!!')
 
+            if newproject.RestartNginx ( ) :
+                print(project_name+'Restart is good')
+                logging.info(project_name+'Restart is good')
 
             import mail
             send_mail_address='cy.chen@networkgrand.com'
@@ -191,9 +197,7 @@ def main ( configfile , sourcefile ,filename ) :
                                          domain_name , send_mail_host , send_mail_name , send_mail_pass );
             print freeback
 
-            if newproject.RestartNginx ( ) :
-                print(project_name+'Restart is good')
-                logging.info(project_name+'Restart is good')
+
 
         #############################################################################
         #			update
