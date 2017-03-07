@@ -86,6 +86,12 @@ def main ( configfile , sourcefile ,filename ) :
                 nginx_static_template = nginx_static_template_301
                 project_type_dir='mobile'
 
+            if newproject.CreateNginxConfigFile ( project_type , project_name , domain_name , nginx_static_template ,
+                                                  nginx_config_dir , index_define , moblie_301_project_name ,
+                                                  moblie_301_domain_name,second_level_domain ,filename) :
+                print('Create Nginx File is good')
+                logging.info(project_name+'Create Nginx File is good')
+
             sourcefile2 = re.sub ( 'Auto_Deploy_(\w+).zip' , 'Auto_Deploy_\\1_' + project_type_dir + '.zip' , sourcefile )
             os.rename ( sourcefile , sourcefile2 )
 
@@ -95,9 +101,11 @@ def main ( configfile , sourcefile ,filename ) :
                 logging.info('move files to rollback')
                 print('move files to rollback')
                 if os.path.exists('/data/rollback/'+otherStyleTime+'_'+filename):
+                    logging.info('dir exists! move file to rollback /data/rollback/'+otherStyleTime+'_'+filename+otherStyleTime)
                     print('move files to rollback++++')
                     os.rename ( '/data/rollback/'+otherStyleTime+'_'+filename , '/data/rollback/'+otherStyleTime+'_'+filename+otherStyleTime )
                 shutil.move(nginx_www_dir+project_type_dir+'/'+filename,'/data/rollback/'+otherStyleTime+'_'+filename+otherStyleTime)
+                logging.info('remove success!')
             else:
                 logging.info('exists not ture')
                 print('exists not ture')
@@ -197,49 +205,6 @@ def main ( configfile , sourcefile ,filename ) :
                                          domain_name , send_mail_host , send_mail_name , send_mail_pass );
             print freeback
 
-
-
-        #############################################################################
-        #			update
-        #############################################################################
-        if operation_type == 'update222' :
-
-            print('starting update ' + project_name + ' '+ project_type + '.......')
-            logging.info('starting create ' + project_name + project_type + '.......')
-
-            if os.path.exists(nginx_www_dir+project_type_dir+'/'+filename):
-                print nginx_www_dir+project_type_dir+'/'+filename
-                print '/data/rollback/'+otherStyleTime+'_'+filename
-                shutil.move(nginx_www_dir+project_type_dir+'/'+filename,'/data/rollback/'+otherStyleTime+'_'+filename)
-
-            if newproject.UnzipSouceFile ( sourcefile2 , nginx_www_dir + project_type_dir ) :
-                print(project_name+'Unzip Source File is good')
-                logging(project_name+'Unzip Source File is good')
-            else :
-                print(project_name+'Unzip Err!!')
-                logging.debug(project_name+'Unzip Err!!')
-
-            import mail
-            send_mail_address='cy.chen@networkgrand.com'
-            connect_email='13926262295@139.com'
-            send_mail_host='smtp.mxhichina.com'
-            send_mail_name='cy.chen@networkgrand.com'
-            send_mail_pass='123qwe!@#QWE!@#QWE'
-            freeback = mail.pysendmail ( send_mail_address , connect_email , operation_type , project_name ,
-                                         domain_name , send_mail_host , send_mail_name , send_mail_pass );
-            print freeback
-            connect_email='house.liu@networkgrand.com'
-            freeback = mail.pysendmail ( send_mail_address , connect_email , operation_type , project_name ,
-                                         domain_name , send_mail_host , send_mail_name , send_mail_pass );
-            print freeback
-            connect_email='bingyu.yue@networkgrand.com'
-            freeback = mail.pysendmail ( send_mail_address , connect_email , operation_type , project_name ,
-                                         domain_name , send_mail_host , send_mail_name , send_mail_pass );
-            print freeback
-
-            if newproject.RestartNginx ( ) :
-                print(project_name+'Restart is good')
-                logging.info(project_name+'Restart is good')
     except :
         return project_name+'err'
     return project_name+'success'
